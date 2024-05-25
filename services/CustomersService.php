@@ -13,8 +13,6 @@ class CustomersService
 
     public function fetchAllCustomers()
     {
-        // $users = new UsersModel($this->conn);
-        // $stmt = $users->readAllUsers();
         $stmt = $this->customersModel->readAllCustomers();
         $customers_array = array();
         $customers_array["records"] = array();
