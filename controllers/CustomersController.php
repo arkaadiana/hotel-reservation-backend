@@ -23,6 +23,28 @@ class CustomersController
     {
         $data = json_decode(file_get_contents("php://input"), true);    
         $result = $this->customersService->addCustomers($data);
-        return json_encode(["message"=>$result]);
+        if ($result) {
+            echo json_encode(array("message" => "User updated successfully."));
+        } else {
+            echo json_encode(array("message" => "Failed to update user."));
+        }
+        exit();
+    }
+
+    public function updateCustomers()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+        if (!isset($data['customer_id'])) {
+            echo json_encode(array("message" => "ID is required."));
+            return;
+        }
+        $id = $data['customer_id'];
+        $result = $this->customersService->updateCustomers($id, $data);
+        if ($result) {
+            echo json_encode(array("message" => "User updated successfully."));
+        } else {
+            echo json_encode(array("message" => "Failed to update user."));
+        }
+        exit();
     }
 }
