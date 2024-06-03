@@ -30,5 +30,11 @@ class CustomersService
         
         return $customers_array;
     }
+
+    public function addCustomers($data)
+    {
+        $stmt = $this->customersModel->insertCustomers($data);
+        return $stmt;
+    }
 }
 
