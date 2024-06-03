@@ -26,4 +26,24 @@ class CustomersModel
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function insertCustomers($data)
+    {
+        try
+        {
+            $query = "INSERT INTO " . $this->table_name . " (name, email, phone_number) VALUES (:name, :email, :phone_number)";
+            $stmt = $this->conn->prepare($query);
+
+            $stmt->bindParam(":name", $data['name']);
+            $stmt->bindParam(":email", $data['email']);
+            $stmt->bindParam(":phone_number", $data['phone_number']);
+
+            return $stmt->execute();
+        
+        }
+        catch (PDOException $e)
+        {
+            echo "Error: " . $e->getMessage();
+        }
+    }
 }

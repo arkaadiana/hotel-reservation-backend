@@ -18,4 +18,11 @@ class CustomersController
         $users = $this->customersService->fetchAllCustomers();
         return json_encode($users);
     }
+
+    public function addCustomers()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);    
+        $result = $this->customersService->addCustomers($data);
+        return json_encode(["message"=>$result]);
+    }
 }
