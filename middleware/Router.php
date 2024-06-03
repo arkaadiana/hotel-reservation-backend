@@ -25,9 +25,8 @@ class Router
             // Debugging code
             error_log(print_r($data, true));
     
-            // Set the response content type to JSON
             header('Content-Type: application/json');
-            echo json_encode($data);
+            echo ($data);
         } else {
             http_response_code(404);
             header('Content-Type: application/json');
