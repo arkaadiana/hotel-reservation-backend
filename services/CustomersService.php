@@ -36,5 +36,12 @@ class CustomersService
         $stmt = $this->customersModel->insertCustomers($data);
         return $stmt;
     }
+
+    public function updateCustomers($id, $data)
+    {
+        $stmt = $this->customersModel->updateCustomers($id, $data);
+        return $stmt;
+    }
 }
+
 

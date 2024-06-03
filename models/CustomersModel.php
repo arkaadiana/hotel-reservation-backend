@@ -46,4 +46,24 @@ class CustomersModel
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function updateCustomers($id, $data)
+    {
+        try
+        {
+            $query = "UPDATE " . $this->table_name . " SET name = :name, email = :email, phone_number = :phone_number WHERE customer_id = :customer_id";
+            $stmt = $this->conn->prepare($query);
+
+            $stmt->bindParam(":name", $data['name']);
+            $stmt->bindParam(":email", $data['email']);
+            $stmt->bindParam(":phone_number", $data['phone_number']);
+            $stmt->bindParam(":customer_id", $id);
+
+            return $stmt->execute();
+        }
+        catch (PDOException $e)
+        {
+            echo "Error: " . $e->getMessage();
+        }
+    }
 }
