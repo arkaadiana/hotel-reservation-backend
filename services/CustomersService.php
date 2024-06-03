@@ -3,7 +3,6 @@ include_once 'models/CustomersModel.php';
 
 class CustomersService
 {
-    private $conn;
     private $customersModel;
 
     public function __construct(CustomersModel $customersmodel)
