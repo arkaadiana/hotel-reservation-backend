@@ -59,7 +59,26 @@ class CustomersModel
             $stmt->bindParam(":email", $data['email']);
             $stmt->bindParam(":phone_number", $data['phone_number']);
 
-            return $stmt->execute();
+            $stmt->execute();
+            return $stmt->rowCount();
+        }
+        catch (PDOException $e)
+        {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+    public function removeCustomers($id)
+    {
+        try
+        {
+            $query = "DELETE FROM " . $this->table_name . " WHERE customer_id = :customer_id";
+            $stmt = $this->conn->prepare($query);
+            
+            $stmt->bindParam(":customer_id", $id);
+
+            $stmt->execute();
+            return $stmt->rowCount();
         }
         catch (PDOException $e)
         {
