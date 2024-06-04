@@ -36,10 +36,22 @@ class CustomersService
         return $stmt;
     }
 
-    public function updateCustomers($id, $data)
-    {
-        $stmt = $this->customersModel->updateCustomers($id, $data);
-        return $stmt;
+    public function updateCustomers($id, $data) {
+        $affectedRows = $this->customersModel->updateCustomers($id, $data);
+        if ($affectedRows > 0) {
+            return true;
+        } else {
+            return "customer_id not found";
+        }
+    }
+
+    public function deleteCustomers($id) {
+        $affectedRows = $this->customersModel->removeCustomers($id);
+        if ($affectedRows > 0) {
+            return true;
+        } else {
+            return "customer_id not found";
+        }
     }
 }
 
