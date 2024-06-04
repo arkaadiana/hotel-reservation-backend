@@ -24,15 +24,14 @@ class CustomersController
         $data = json_decode(file_get_contents("php://input"), true);    
         $result = $this->customersService->addCustomers($data);
         if ($result) {
-            echo json_encode(array("message" => "User updated successfully."));
+            echo json_encode(array("message" => "Customer added successfully."));
         } else {
-            echo json_encode(array("message" => "Failed to update user."));
+            echo json_encode(array("message" => "Failed to add customer."));
         }
         exit();
     }
-
-    public function updateCustomers()
-    {
+    
+    public function updateCustomers() {
         $data = json_decode(file_get_contents("php://input"), true);
         if (!isset($data['customer_id'])) {
             echo json_encode(array("message" => "ID is required."));
@@ -40,10 +39,22 @@ class CustomersController
         }
         $id = $data['customer_id'];
         $result = $this->customersService->updateCustomers($id, $data);
-        if ($result) {
+        if ($result === true) {
             echo json_encode(array("message" => "User updated successfully."));
         } else {
-            echo json_encode(array("message" => "Failed to update user."));
+            echo json_encode(array("message" => "$result"));
+        }
+        exit();
+    }
+
+    public function deleteCustomers() {
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data['customer_id'];
+        $result = $this->customersService->deleteCustomers($id);
+        if ($result === true) {
+            echo json_encode(array("message" => "User deleted successfully."));
+        } else {
+            echo json_encode(array("message" => $result));
         }
         exit();
     }
