@@ -14,8 +14,8 @@ class CustomersController
 
     public function readCustomers()
     {
-        $users = $this->customersService->fetchAllCustomers();
-        return json_encode($users);
+        $customers = $this->customersService->fetchAllCustomers();
+        return json_encode($customers);
     }
 
     public function addCustomers()
@@ -39,7 +39,7 @@ class CustomersController
         $id = $data['customer_id'];
         $result = $this->customersService->updateCustomers($id, $data);
         if ($result === true) {
-            echo json_encode(array("message" => "User updated successfully."));
+            echo json_encode(array("message" => "Customer updated successfully."));
         } else {
             echo json_encode(array("message" => "$result"));
         }
@@ -51,7 +51,7 @@ class CustomersController
         $id = $data['customer_id'];
         $result = $this->customersService->deleteCustomers($id);
         if ($result === true) {
-            echo json_encode(array("message" => "User deleted successfully."));
+            echo json_encode(array("message" => "Customer deleted successfully."));
         } else {
             echo json_encode(array("message" => $result));
         }
