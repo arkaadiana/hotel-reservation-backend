@@ -37,20 +37,41 @@ class CustomersService
     }
 
     public function updateCustomers($id, $data) {
-        $affectedRows = $this->customersModel->updateCustomers($id, $data);
-        if ($affectedRows > 0) {
-            return true;
+        $isCustomerIdExists = $this->customersModel->isCustomerIdExists($id);
+        if (is_string($isCustomerIdExists)) {
+            return $isCustomerIdExists;
+        }
+    
+        if (!$isCustomerIdExists) {
+            return "Customer not found.";
+        }
+    
+        $rowCount = $this->customersModel->updateCustomers($id, $data);
+
+        if (is_string($rowCount)) {
+            return $rowCount;
         } else {
-            return "customer_id not found";
+            if ($rowCount > 0) {
+                return true;
+            } else {
+                return "No changes made.";
+            }
         }
     }
-
+    
     public function deleteCustomers($id) {
-        $affectedRows = $this->customersModel->removeCustomers($id);
-        if ($affectedRows > 0) {
+
+        $isCustomerIdExists = $this->customersModel->isCustomerIdExists($id);
+        
+        if (!$isCustomerIdExists) {
+            return "Customer not found.";
+        }
+        $rowCount = $this->customersModel->removeCustomers($id);
+        
+        if ($rowCount > 0) {
             return true;
         } else {
-            return "customer_id not found";
+            return "Failed to delete customer.";
         }
     }
 }
