@@ -11,6 +11,20 @@ class CustomersModel
         $this->table_name = $tables['customer'];
     }
 
+    public function isCustomerIdExists($id)
+    {
+        try {
+            $query = "SELECT customer_id FROM " . $this->table_name . " WHERE customer_id = :customer_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":customer_id", $id);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return !empty($result);
+        } catch (PDOException $e) {
+            return "Error: " . $e->getMessage();
+        }
+    }
+
     public function readAllCustomers()
     {
         try
@@ -29,21 +43,29 @@ class CustomersModel
 
     public function insertCustomers($data)
     {
-        try
-        {
+        try {
             $query = "INSERT INTO " . $this->table_name . " (name, email, phone_number) VALUES (:name, :email, :phone_number)";
             $stmt = $this->conn->prepare($query);
-
+    
             $stmt->bindParam(":name", $data['name']);
             $stmt->bindParam(":email", $data['email']);
             $stmt->bindParam(":phone_number", $data['phone_number']);
-
-            return $stmt->execute();
-        
-        }
-        catch (PDOException $e)
-        {
-            echo "Error: " . $e->getMessage();
+    
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            if ($e->getCode() == '23000') {
+                $errorMessage = $e->getMessage();
+                if (strpos($errorMessage, 'email') !== false) {
+                    return "Duplicate email detected";
+                } elseif (strpos($errorMessage, 'phone_number') !== false) {
+                    return "Duplicate phone number detected";
+                } else {
+                    return "Integrity constraint violation: " .  $e->getMessage();
+                }
+            } else {
+                return "Error: " . $e->getMessage();
+            }
         }
     }
 
@@ -51,23 +73,49 @@ class CustomersModel
     {
         try
         {
-            $query = "UPDATE " . $this->table_name . " SET name = :name, email = :email, phone_number = :phone_number WHERE customer_id = :customer_id";
+            $query = "UPDATE " . $this->table_name . " SET ";
+            $params = array();
+            
+            if(isset($data['name'])) {
+                $query .= "name = :name, ";
+                $params[':name'] = $data['name'];
+            }
+            if(isset($data['email'])) {
+                $query .= "email = :email, ";
+                $params[':email'] = $data['email'];
+            }
+            if(isset($data['phone_number'])) {
+                $query .= "phone_number = :phone_number, ";
+                $params[':phone_number'] = $data['phone_number'];
+            }
+            
+            $query = rtrim($query, ', ');
+            $query .= " WHERE customer_id = :customer_id";
+            
+            $params[':customer_id'] = $id;
+    
             $stmt = $this->conn->prepare($query);
-
-            $stmt->bindParam(":customer_id", $id);
-            $stmt->bindParam(":name", $data['name']);
-            $stmt->bindParam(":email", $data['email']);
-            $stmt->bindParam(":phone_number", $data['phone_number']);
-
-            $stmt->execute();
+            $stmt->execute($params);
+    
             return $stmt->rowCount();
         }
         catch (PDOException $e)
         {
-            echo "Error: " . $e->getMessage();
+            if ($e->getCode() == '23000') {
+                $errorMessage = $e->getMessage();
+                if (strpos($errorMessage, 'email') !== false) {
+                    return "Duplicate email detected.";
+                } elseif (strpos($errorMessage, 'phone_number') !== false) {
+                    return "Duplicate phone number detected.";
+                } else {
+                    return "Integrity constraint violation: " . $e->getMessage();
+                }
+            } else {
+                return "Error: " . $e->getMessage();
+            }
         }
     }
-
+    
     public function removeCustomers($id)
     {
         try
