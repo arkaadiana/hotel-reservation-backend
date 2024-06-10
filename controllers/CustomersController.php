@@ -24,7 +24,7 @@ class CustomersController
 
         $errorMessages = [];
 
-        if (!isset($data['name']) || empty($data['name'])) {
+        if (empty($data['name'])) {
             $errorMessages[] = "Name is required.";
         }
     
@@ -34,7 +34,7 @@ class CustomersController
             $errorMessages[] = "Invalid email format.";
         }
     
-        if (!isset($data['phone_number']) || empty($data['phone_number'])) {
+        if (empty($data['phone_number'])) {
             $errorMessages[] = "Phone number is required.";
         } elseif (!preg_match("/^\d{10,}$/", $data['phone_number'])) {
             $errorMessages[] = "Invalid phone number format.";
@@ -54,7 +54,8 @@ class CustomersController
         exit();
     }
     
-    public function updateCustomers() {
+    public function updateCustomers() 
+    {
         $data = json_decode(file_get_contents("php://input"), true);
 
         if (!isset($data['customer_id']) || empty($data['customer_id'])) {
@@ -72,7 +73,8 @@ class CustomersController
         exit();
     }
     
-    public function deleteCustomers() {
+    public function deleteCustomers() 
+    {
         $data = json_decode(file_get_contents("php://input"), true);
 
         if (!isset($data['customer_id']) || empty($data['customer_id'])) {
