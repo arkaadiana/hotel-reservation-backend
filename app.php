@@ -1,5 +1,6 @@
 <?php
 include_once 'controllers/CustomersController.php';
+include_once 'controllers/RoomsController.php';
 include_once 'config/database.php'; 
 include_once 'middleware/Router.php';
 
@@ -12,5 +13,10 @@ $router->register('POST', '/api/customers', [new CustomersController($db), 'addC
 $router->register('PUT', '/api/customers', [new CustomersController($db), 'updateCustomers']);
 $router->register('DELETE', '/api/customers', [new CustomersController($db), 'deleteCustomers']);
 
-$router->dispatch($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+$router->register('GET', '/api/rooms', [new RoomsController($db), 'readRooms']);
+$router->register('GET', '/api/rooms/status', [new RoomsController($db), 'checkRoomStatus']);
+$router->register('POST', '/api/rooms', [new RoomsController($db), 'addRooms']);
+$router->register('PUT', '/api/rooms', [new RoomsController($db), 'updateRooms']);
+$router->register('DELETE', '/api/rooms', [new RoomsController($db), 'deleteRooms']);
 
+$router->dispatch($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
