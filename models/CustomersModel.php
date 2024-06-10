@@ -13,15 +13,19 @@ class CustomersModel
 
     public function isCustomerIdExists($id)
     {
-        try {
+        try 
+        {
             $query = "SELECT customer_id FROM " . $this->table_name . " WHERE customer_id = :customer_id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":customer_id", $id);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return !empty($result);
-        } catch (PDOException $e) {
-            return "Error: " . $e->getMessage();
+        } 
+        catch (PDOException $e) 
+        {
+            echo "Error: " . $e->getMessage();
+            return false;
         }
     }
 
@@ -38,12 +42,14 @@ class CustomersModel
         catch (PDOException $e)
         {
             echo "Error: " . $e->getMessage();
+            return false;
         }
     }
 
     public function insertCustomers($data)
     {
-        try {
+        try 
+        {
             $query = "INSERT INTO " . $this->table_name . " (name, email, phone_number) VALUES (:name, :email, :phone_number)";
             $stmt = $this->conn->prepare($query);
     
@@ -53,7 +59,9 @@ class CustomersModel
     
             $stmt->execute();
             return true;
-        } catch (PDOException $e) {
+        } 
+        catch (PDOException $e) 
+        {
             if ($e->getCode() == '23000') {
                 $errorMessage = $e->getMessage();
                 if (strpos($errorMessage, 'email') !== false) {
@@ -64,7 +72,8 @@ class CustomersModel
                     return "Integrity constraint violation: " .  $e->getMessage();
                 }
             } else {
-                return "Error: " . $e->getMessage();
+                echo "Error: " . $e->getMessage();
+                return false;
             }
         }
     }
@@ -130,7 +139,16 @@ class CustomersModel
         }
         catch (PDOException $e)
         {
-            echo "Error: " . $e->getMessage();
+            if ($e->getCode() == '23000') {
+                $errorMessage = $e->getMessage();
+                if (strpos($errorMessage, 'foreign key constraint') !== false) {
+                    return "Foreign key constraint violation: Cannot delete customer because of existing related records.";
+                } else {
+                    return "Integrity constraint violation: " . $e->getMessage();
+                }
+            } else {
+                return "Error: " . $e->getMessage();
+            }
         }
     }
 }
