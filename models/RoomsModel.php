@@ -45,27 +45,6 @@ class RoomsModel
         }
     }
 
-    public function getRoomStatus($room_id, $check_in_date, $check_out_date)
-    {
-        try 
-        {
-            $query = "SELECT status FROM reservation WHERE room_id = :room_id AND 
-                    ((:check_in_date <= check_out_date) AND (:check_out_date >= check_in_date))";
-
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':room_id', $room_id);
-            $stmt->bindParam(':check_in_date', $check_in_date);
-            $stmt->bindParam(':check_out_date', $check_out_date);
-            $stmt->execute();
-            return $stmt->rowCount() > 0 ? $stmt : null;
-        } 
-        catch (PDOException $e) 
-        {
-            echo "Error: " . $e->getMessage();
-            return false;
-        }
-    }
-
     public function insertRooms($data)
     {
         try 
