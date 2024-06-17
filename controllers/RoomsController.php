@@ -17,40 +17,7 @@ class RoomsController
         $rooms = $this->roomsService->fetchAllRooms();
         return json_encode($rooms);
     }
-
-    public function checkRoomStatus()
-    {
-        $room_id = $_GET['room_id'] ?? '';
-        $check_in_date = $_GET['check_in_date'] ?? '';
-        $check_out_date = $_GET['check_out_date'] ?? '';
-    
-        $errorMessages = [];
-    
-        if (empty($room_id)) {
-            $errorMessages[] = "Room ID is required.";
-        }
-        
-        if (empty($check_in_date)) {
-            $errorMessages[] = "Check-in date is required.";
-        } elseif (!strtotime($check_in_date)) {
-            $errorMessages[] = "Invalid check-in date format.";
-        }
-    
-        if (empty($check_out_date)) {
-            $errorMessages[] = "Check-out date is required.";
-        } elseif (!strtotime($check_out_date)) {
-            $errorMessages[] = "Invalid check-out date format.";
-        }
-    
-        if (!empty($errorMessages)) {
-            echo json_encode(["message" => $errorMessages]);
-            return;
-        }
-    
-        $status = $this->roomsService->checkRoomStatus($room_id, $check_in_date, $check_out_date);
-        return json_encode(["status" => $status]);
-    }
-    
+   
     public function addRooms()
     {
         $data = json_decode(file_get_contents("php://input"), true);
