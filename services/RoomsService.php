@@ -29,23 +29,6 @@ class RoomsService
         return $rooms_array;
     }
 
-    public function checkRoomStatus($room_id, $check_in_date, $check_out_date)
-    {
-        if (!$this->roomsModel->isRoomIdExists($room_id)) {
-            return "Room not found";
-        }
-
-        $stmt = $this->roomsModel->getRoomStatus($room_id, $check_in_date, $check_out_date);
-        if ($stmt) {
-            // Room is booked
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $row['status'];
-        } else {
-            // Room is available
-            return "available";
-        }
-    }
-
     public function addRooms($data)
     {
         $stmt = $this->roomsModel->insertRooms($data);
