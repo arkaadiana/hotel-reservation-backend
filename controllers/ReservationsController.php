@@ -82,6 +82,11 @@ class ReservationsController
     public function addReservations()
     {
         $data = json_decode(file_get_contents("php://input"), true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(array("message" => "Invalid JSON format."));
+            return;
+        }
     
         $errorMessages = [];
     
@@ -124,10 +129,66 @@ class ReservationsController
         }
         exit();
     }
+
+    public function updateReservations() 
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(array("message" => "Invalid JSON format."));
+            return;
+        }
+
+        if (!isset($data['reservation_id']) || empty($data['reservation_id'])) {
+            echo json_encode(["message" => "Reservation ID is required."]);
+            return;
+        }
+
+        $errorMessages = [];
+        // Validasi khusus untuk tanggal dan waktu
+        if (isset($data['check_in_datetime'])) {
+            $datetime_parts = explode(' ', $data['check_in_datetime']);
+            if (count($datetime_parts) !== 2 || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $datetime_parts[0]) || !preg_match('/^\d{2}:\d{2}:\d{2}$/', $datetime_parts[1])) {
+                $errorMessages[] = "Invalid check-in datetime format. Use YYYY-MM-DD HH:MM:SS.";
+            }
+        }
+        
+        if (isset($data['check_out_datetime'])) {
+            $datetime_parts = explode(' ', $data['check_out_datetime']);
+            if (count($datetime_parts) !== 2 || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $datetime_parts[0]) || !preg_match('/^\d{2}:\d{2}:\d{2}$/', $datetime_parts[1])) {
+                $errorMessages[] = "Invalid check-out datetime format. Use YYYY-MM-DD HH:MM:SS.";
+            }
+        }
+    
+        // Validasi format total price jika ada
+        if (isset($data['total_price']) && !is_numeric($data['total_price'])) {
+            $errorMessages[] = "Invalid total price format. Must be a number.";
+        }
+    
+        if (!empty($errorMessages)) {
+            echo json_encode(array("message" => $errorMessages));
+            return;
+        }
+    
+    
+        $id = $data['reservation_id'];
+        $result = $this->reservationsService->updateReservation($id, $data);
+        if ($result === true) {
+            echo json_encode(array("message" => "Reservation updated successfully."));
+        } else {
+            echo json_encode(array("message" => $result));
+        }
+        exit();
+    }
     
     public function deleteReservations()
     {
         $data = json_decode(file_get_contents("php://input"), true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(array("message" => "Invalid JSON format."));
+            return;
+        }
     
         if (!isset($data['reservation_id']) || empty($data['reservation_id'])) {
             echo json_encode(["message" => "Reservation ID is required."]);
