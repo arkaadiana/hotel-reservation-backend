@@ -20,26 +20,32 @@ class ReservationsController
     
         $dateTimeFormat = '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/';
     
-        if (empty($room_id) || empty($check_in_datetime) || empty($check_out_datetime)) {
-            http_response_code(400);
-            echo json_encode([
-                'message' => 'Missing required parameters.'
-            ]);
-            exit();
+        $errorMessages = [];
+    
+        // Validate room_id
+        if (empty($room_id)) {
+            $errorMessages[] = 'Room ID is required.';
         }
     
-        if (!preg_match($dateTimeFormat, $check_in_datetime)) {
-            http_response_code(400);
-            echo json_encode([
-                'message' => 'Invalid check-in datetime format. Expected format: YYYY-MM-DD HH:MM:SS'
-            ]);
-            exit();
+        // Validate check-in datetime
+        if (empty($check_in_datetime)) {
+            $errorMessages[] = 'Check-in datetime is required.';
+        } elseif (!preg_match($dateTimeFormat, $check_in_datetime)) {
+            $errorMessages[] = 'Invalid check-in datetime format. Expected format: YYYY-MM-DD HH:MM:SS';
         }
     
-        if (!preg_match($dateTimeFormat, $check_out_datetime)) {
+        // Validate check-out datetime
+        if (empty($check_out_datetime)) {
+            $errorMessages[] = 'Check-out datetime is required.';
+        } elseif (!preg_match($dateTimeFormat, $check_out_datetime)) {
+            $errorMessages[] = 'Invalid check-out datetime format. Expected format: YYYY-MM-DD HH:MM:SS';
+        }
+    
+        // If there are any errors, return them
+        if (!empty($errorMessages)) {
             http_response_code(400);
             echo json_encode([
-                'message' => 'Invalid check-out datetime format. Expected format: YYYY-MM-DD HH:MM:SS'
+                'message' => $errorMessages
             ]);
             exit();
         }
