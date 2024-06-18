@@ -45,16 +45,23 @@ class ReservationsModel
         }
     }
 
-    public function isRoomBooked($data)
+    public function isRoomBooked($data, $exclude_reservation_id = null)
     {
         try 
         {
             $query = "SELECT COUNT(*) FROM " . $this->table_name . " WHERE room_id = :room_id 
                       AND ((:check_in_datetime <= check_out_datetime) AND (:check_out_datetime >= check_in_datetime))";
+            if ($exclude_reservation_id) {
+                $query .= " AND reservation_id != :exclude_reservation_id";
+            }
+    
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':room_id', $data['room_id']);
             $stmt->bindParam(':check_in_datetime', $data['check_in_datetime']);
             $stmt->bindParam(':check_out_datetime', $data['check_out_datetime']);
+            if ($exclude_reservation_id) {
+                $stmt->bindParam(':exclude_reservation_id', $exclude_reservation_id);
+            }
             $stmt->execute();
             return $stmt->fetchColumn() > 0;
         } 
@@ -64,6 +71,7 @@ class ReservationsModel
             return false;
         }
     }
+    
 
     public function insertReservations($data)
     {
@@ -88,6 +96,54 @@ class ReservationsModel
             return false;
         }
     }
+
+    public function updateReservations($id, $data)
+    {
+        try
+        {
+            $query = "UPDATE " . $this->table_name . " SET ";
+            $params = array();
+            
+            if(isset($data['customer_id'])) {
+                $query .= "customer_id = :customer_id, ";
+                $params[':customer_id'] = $data['customer_id'];
+            }
+            if(isset($data['room_id'])) {
+                $query .= "room_id = :room_id, ";
+                $params[':room_id'] = $data['room_id'];
+            }
+            if(isset($data['check_in_datetime'])) {
+                $query .= "check_in_datetime = :check_in_datetime, ";
+                $params[':check_in_datetime'] = $data['check_in_datetime'];
+            }
+            if(isset($data['check_out_datetime'])) {
+                $query .= "check_out_datetime = :check_out_datetime, ";
+                $params[':check_out_datetime'] = $data['check_out_datetime'];
+            }
+            if(isset($data['total_price'])) {
+                $query .= "total_price = :total_price, ";
+                $params[':total_price'] = $data['total_price'];
+            }
+            
+            $query = rtrim($query, ', ');
+            $query .= " WHERE reservation_id = :reservation_id";
+            
+            $params[':reservation_id'] = $id;
+    
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute($params);
+    
+            return $stmt->rowCount();
+        }
+        catch (PDOException $e)
+        {
+            if ($e->getCode() == '23000') {
+                return "Integrity constraint violation: " . $e->getMessage();
+            } else {
+                return "Error: " . $e->getMessage();
+            }
+        }
+    }    
 
     public function removeReservations($reservation_id) 
     {
