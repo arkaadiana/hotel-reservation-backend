@@ -21,6 +21,11 @@ class RoomsController
     public function addRooms()
     {
         $data = json_decode(file_get_contents("php://input"), true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(array("message" => "Invalid JSON format."));
+            return;
+        }
     
         $errorMessages = [];
     
@@ -62,6 +67,16 @@ class RoomsController
     public function updateRooms()
     {
         $data = json_decode(file_get_contents("php://input"), true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(array("message" => "Invalid JSON format."));
+            return;
+        }
+    
+        if (!isset($data['room_id']) || empty($data['room_id'])) {
+            echo json_encode(array("message" => "Room ID is required."));
+            return;
+        }
     
         $errorMessages = [];
     
@@ -101,9 +116,14 @@ class RoomsController
     public function deleteRooms()
     {
         $data = json_decode(file_get_contents("php://input"), true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(array("message" => "Invalid JSON format."));
+            return;
+        }
     
         if (!isset($data['room_id']) || empty($data['room_id'])) {
-            echo json_encode(["message" => "ID is required."]);
+            echo json_encode(["message" => "Room ID is required."]);
             return;
         }
     
