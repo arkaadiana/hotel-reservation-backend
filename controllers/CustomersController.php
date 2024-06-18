@@ -22,6 +22,11 @@ class CustomersController
     {
         $data = json_decode(file_get_contents("php://input"), true);
 
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(array("message" => "Invalid JSON format."));
+            return;
+        }
+
         $errorMessages = [];
 
         if (empty($data['name'])) {
@@ -37,7 +42,7 @@ class CustomersController
         if (empty($data['phone_number'])) {
             $errorMessages[] = "Phone number is required.";
         } elseif (!preg_match("/^\d{10,}$/", $data['phone_number'])) {
-            $errorMessages[] = "Invalid phone number format.";
+            $errorMessages[] = "Invalid phone number format. Must be at least 10 digits.";
         }
     
         if (!empty($errorMessages)) {
@@ -58,8 +63,35 @@ class CustomersController
     {
         $data = json_decode(file_get_contents("php://input"), true);
 
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(array("message" => "Invalid JSON format."));
+            return;
+        }
+    
         if (!isset($data['customer_id']) || empty($data['customer_id'])) {
-            echo json_encode(array("message" => "ID is required."));
+            echo json_encode(array("message" => "Customer ID is required."));
+            return;
+        }
+
+        $errorMessages = [];
+
+        if (isset($data['name']) && empty(trim($data['name']))) {
+            $errorMessages[] = "Name cannot be empty.";
+        }
+
+        // Validasi format email jika ada
+        if (isset($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            $errorMessages[] = "Invalid email format.";
+        }
+    
+        // Validasi format phone_number jika ada
+        if (isset($data['phone_number']) && !preg_match("/^\d{10,}$/", $data['phone_number'])) {
+            $errorMessages[] = "Invalid phone number format. Must be at least 10 digits.";
+        }
+    
+        // Jika ada kesalahan validasi, kirim pesan kesalahan kembali
+        if (!empty($errorMessages)) {
+            echo json_encode(array("message" => $errorMessages));
             return;
         }
     
@@ -77,8 +109,13 @@ class CustomersController
     {
         $data = json_decode(file_get_contents("php://input"), true);
 
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(array("message" => "Invalid JSON format."));
+            return;
+        }
+
         if (!isset($data['customer_id']) || empty($data['customer_id'])) {
-            echo json_encode(array("message" => "ID is required."));
+            echo json_encode(array("message" => "Customer ID is required."));
             return;
         }
 
