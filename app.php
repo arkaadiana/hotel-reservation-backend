@@ -23,6 +23,7 @@ $router->register('DELETE', '/api/rooms', [new RoomsController($db), 'deleteRoom
 $router->register('GET', '/api/reservations/room-status', [new ReservationsController($db), 'checkRoomStatus']);
 $router->register('GET', '/api/reservations', [new ReservationsController($db), 'readReservations']);
 $router->register('POST', '/api/reservations', [new ReservationsController($db), 'addReservations']);
+$router->register('PUT', '/api/reservations', [new ReservationsController($db), 'updateReservations']);
 $router->register('DELETE', '/api/reservations', [new ReservationsController($db), 'deleteReservations']);
 
 $router->dispatch($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));

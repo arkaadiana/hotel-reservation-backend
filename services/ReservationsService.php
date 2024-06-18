@@ -11,15 +11,16 @@ class ReservationsService
     }
 
     // Reservation operations
-    public function getRoomStatus($data)
+    public function getRoomStatus($data, $exclude_reservation_id = null)
     {
         // Check if the room is booked for the given date range
-        $isBooked = $this->reservationsModel->isRoomBooked($data);
+        $isBooked = $this->reservationsModel->isRoomBooked($data, $exclude_reservation_id);
     
         // Return "booked" if the room is booked, otherwise return "available"
         $status = $isBooked ? "booked" : "available";
         return json_encode(array("status" => $status));
     }
+    
 
     public function fetchAllReservations()
     {
@@ -53,6 +54,36 @@ class ReservationsService
     
         return $this->reservationsModel->insertReservations($data);
     }
+
+    public function updateReservation($id, $data)
+    {
+        $isReservationIdExists = $this->reservationsModel->isReservationIdExists($id);
+        if (is_string($isReservationIdExists)) {
+            return $isReservationIdExists;
+        }
+    
+        if (!$isReservationIdExists) {
+            return "Reservation not found.";
+        }
+    
+        $roomStatus = json_decode($this->getRoomStatus($data, $id), true);
+        if ($roomStatus["status"] === "booked") {
+            return "Room is not available for the selected dates.";
+        }
+    
+        $rowCount = $this->reservationsModel->updateReservations($id, $data);
+    
+        if (is_string($rowCount)) {
+            return $rowCount;
+        } else {
+            if ($rowCount > 0) {
+                return true;
+            } else {
+                return "No changes made.";
+            }
+        }
+    }
+    
 
     public function deleteReservations($id)
     {
