@@ -1,26 +1,36 @@
 <?php
 include_once 'models/ReservationsModel.php';
+include_once 'models/CustomersModel.php';
+include_once 'models/RoomsModel.php';
 
 class ReservationsService
 {
     private $reservationsModel;
-
-    public function __construct(ReservationsModel $reservationsModel)
+    private $customersModel;
+    private $roomsModel;
+    
+    public function __construct(ReservationsModel $reservationsModel, CustomersModel $customersModel, RoomsModel $roomsModel)
     {
         $this->reservationsModel = $reservationsModel;
+        $this->customersModel = $customersModel;
+        $this->roomsModel = $roomsModel;
     }
 
     // Reservation operations
     public function getRoomStatus($data, $exclude_reservation_id = null)
     {
+        // Check if the room_id exists
+        if (!$this->roomsModel->isRoomIdExists($data['room_id'])) {
+            return json_encode(array("status" => "error", "message" => "Room not found."));
+        }
+
         // Check if the room is booked for the given date range
         $isBooked = $this->reservationsModel->isRoomBooked($data, $exclude_reservation_id);
-    
+        
         // Return "booked" if the room is booked, otherwise return "available"
         $status = $isBooked ? "booked" : "available";
         return json_encode(array("status" => $status));
     }
-    
 
     public function fetchAllReservations()
     {
@@ -47,30 +57,59 @@ class ReservationsService
     public function addReservations($data)
     {
         $roomStatus = json_decode($this->getRoomStatus($data), true);
+
+        $errorMessages = [];
+
+        if (!$this->customersModel->isCustomerIdExists($data['customer_id'])) {
+            $errorMessages[] = "Customer not found.";
+        }
+        
+        if (!$this->roomsModel->isRoomIdExists($data['room_id'])) {
+            $errorMessages[] = "Room not found.";
+        }
         
         if ($roomStatus["status"] === "booked") {
-            return "Room is not available for the selected dates.";
+            $errorMessages[] = "Room is not available for the selected dates.";
         }
-    
+        
+        if (!empty($errorMessages)) {
+            return $errorMessages;
+        }
+        
         return $this->reservationsModel->insertReservations($data);
     }
 
     public function updateReservation($id, $data)
     {
+        $roomStatus = json_decode($this->getRoomStatus($data, $id), true);
+
+        $errorMessages = [];
+
         $isReservationIdExists = $this->reservationsModel->isReservationIdExists($id);
         if (is_string($isReservationIdExists)) {
-            return $isReservationIdExists;
+            $errorMessages[] = $isReservationIdExists;
         }
-    
+        
         if (!$isReservationIdExists) {
-            return "Reservation not found.";
+            $errorMessages[] = "Reservation not found.";
         }
-    
-        $roomStatus = json_decode($this->getRoomStatus($data, $id), true);
+        
+        if (!$this->customersModel->isCustomerIdExists($data['customer_id'])) {
+            $errorMessages[] = "Customer not found.";
+        }
+        
+        if (!$this->roomsModel->isRoomIdExists($data['room_id'])) {
+            $errorMessages[] = "Room not found.";
+        }
+        
         if ($roomStatus["status"] === "booked") {
-            return "Room is not available for the selected dates.";
+            $errorMessages[] = "Room is not available for the selected dates.";
         }
-    
+        
+        if (!empty($errorMessages)) {
+            return $errorMessages;
+        }
+
         $rowCount = $this->reservationsModel->updateReservations($id, $data);
     
         if (is_string($rowCount)) {
