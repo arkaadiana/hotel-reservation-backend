@@ -1,5 +1,4 @@
 <?php
-include_once 'models/CustomersModel.php';
 include_once 'services/CustomersService.php';
 
 class CustomersController
@@ -69,17 +68,14 @@ class CustomersController
             $errorMessages[] = "Name cannot be empty.";
         }
 
-        // Validasi format email jika ada
         if (isset($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $errorMessages[] = "Invalid email format.";
         }
     
-        // Validasi format phone_number jika ada
         if (isset($data['phone_number']) && !preg_match("/^\d{10,}$/", $data['phone_number'])) {
             $errorMessages[] = "Invalid phone number format. Must be at least 10 digits.";
         }
     
-        // Jika ada kesalahan validasi, kirim pesan kesalahan kembali
         if (!empty($errorMessages)) {
             echo json_encode(array("message" => $errorMessages));
             return;
