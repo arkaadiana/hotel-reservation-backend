@@ -26,7 +26,7 @@ Sistem manajemen reservasi hotel adalah proyek akhir dari mata kuliah Back-end W
   - **DELETE** `/api/reservations`: Menghapus data reservasi
 
 ## 🛠️ Skema Tech Stack
-Berikut adalah beberapa kombinasi teknologi yang akan digunakan dalam mengembangkan sistem ini:
+Berikut adalah beberapa kombinasi teknologi yang digunakan dalam mengembangkan sistem ini:
 
 ![skema_tech_stack](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/b336b477-0409-4db0-aa3a-62270cb99b52)
 
