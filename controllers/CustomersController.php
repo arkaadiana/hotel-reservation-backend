@@ -22,11 +22,6 @@ class CustomersController
     {
         $data = json_decode(file_get_contents("php://input"), true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            echo json_encode(array("message" => "Invalid JSON format."));
-            return;
-        }
-
         $errorMessages = [];
 
         if (empty($data['name'])) {
@@ -62,11 +57,6 @@ class CustomersController
     public function updateCustomers() 
     {
         $data = json_decode(file_get_contents("php://input"), true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            echo json_encode(array("message" => "Invalid JSON format."));
-            return;
-        }
     
         if (!isset($data['customer_id']) || empty($data['customer_id'])) {
             echo json_encode(array("message" => "Customer ID is required."));
@@ -108,11 +98,6 @@ class CustomersController
     public function deleteCustomers() 
     {
         $data = json_decode(file_get_contents("php://input"), true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            echo json_encode(array("message" => "Invalid JSON format."));
-            return;
-        }
 
         if (!isset($data['customer_id']) || empty($data['customer_id'])) {
             echo json_encode(array("message" => "Customer ID is required."));
