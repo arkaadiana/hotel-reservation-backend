@@ -75,6 +75,10 @@ Langkah-langkah untuk menginstal proyek ini secara lokal:
    ```
    Atau, unduh file ZIP dan ekstrak ke komputer kalian.
 
+   Pastikan folder berada pada lokasi seperi dibawah ini:
+
+   ![image](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/03d55266-e3cd-4a72-85ec-b5e1ee344528)
+
 ### 2. **Buka Proyek di IDE:**
   - Buka proyek menggunakan IDE favorit kalian seperti Visual Studio Code.
 ### 3. **Aktifkan XAMPP:**
