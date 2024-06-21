@@ -1,5 +1,6 @@
 <?php
 include_once 'models/ReservationsModel.php';
+include_once 'models/RoomsModel.php';
 include_once 'services/ReservationsService.php';
 
 class ReservationsController
@@ -9,7 +10,9 @@ class ReservationsController
     public function __construct($conn)
     {
         $reservationsModel = new ReservationsModel($conn);
-        $this->reservationsService = new ReservationsService($reservationsModel);
+        $customersModel = new CustomersModel($conn);
+        $roomsModel = new RoomsModel($conn);
+        $this->reservationsService = new ReservationsService($reservationsModel, $customersModel, $roomsModel);
     }
 
     public function checkRoomStatus()
@@ -73,7 +76,7 @@ class ReservationsController
             ]);
         } else {
             echo json_encode([
-                'message' => 'Error: Invalid room status.'
+                'message' => $response['message']
             ]);
         }
         exit();
@@ -82,17 +85,12 @@ class ReservationsController
     public function readReservations()
     {
         $reservations = $this->reservationsService->fetchAllReservations();
-        echo json_encode($reservations);
+        return json_encode($reservations);
     }
 
     public function addReservations()
     {
         $data = json_decode(file_get_contents("php://input"), true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            echo json_encode(array("message" => "Invalid JSON format."));
-            return;
-        }
     
         $errorMessages = [];
     
@@ -140,11 +138,6 @@ class ReservationsController
     {
         $data = json_decode(file_get_contents("php://input"), true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            echo json_encode(array("message" => "Invalid JSON format."));
-            return;
-        }
-
         if (!isset($data['reservation_id']) || empty($data['reservation_id'])) {
             echo json_encode(["message" => "Reservation ID is required."]);
             return;
@@ -190,11 +183,6 @@ class ReservationsController
     public function deleteReservations()
     {
         $data = json_decode(file_get_contents("php://input"), true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            echo json_encode(array("message" => "Invalid JSON format."));
-            return;
-        }
     
         if (!isset($data['reservation_id']) || empty($data['reservation_id'])) {
             echo json_encode(["message" => "Reservation ID is required."]);
