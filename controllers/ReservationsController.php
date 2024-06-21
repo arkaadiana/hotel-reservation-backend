@@ -1,6 +1,4 @@
 <?php
-include_once 'models/ReservationsModel.php';
-include_once 'models/RoomsModel.php';
 include_once 'services/ReservationsService.php';
 
 class ReservationsController
@@ -25,26 +23,22 @@ class ReservationsController
     
         $errorMessages = [];
     
-        // Validate room_id
         if (empty($room_id)) {
             $errorMessages[] = 'Room ID is required.';
         }
     
-        // Validate check-in datetime
         if (empty($check_in_datetime)) {
             $errorMessages[] = 'Check-in datetime is required.';
         } elseif (!preg_match($dateTimeFormat, $check_in_datetime)) {
             $errorMessages[] = 'Invalid check-in datetime format. Expected format: YYYY-MM-DD HH:MM:SS';
         }
     
-        // Validate check-out datetime
         if (empty($check_out_datetime)) {
             $errorMessages[] = 'Check-out datetime is required.';
         } elseif (!preg_match($dateTimeFormat, $check_out_datetime)) {
             $errorMessages[] = 'Invalid check-out datetime format. Expected format: YYYY-MM-DD HH:MM:SS';
         }
     
-        // If there are any errors, return them
         if (!empty($errorMessages)) {
             http_response_code(400);
             echo json_encode([
@@ -59,10 +53,8 @@ class ReservationsController
             'check_out_datetime' => $check_out_datetime
         );
     
-        // Call the service method
         $roomStatus = $this->reservationsService->getRoomStatus($data);
-    
-        // Prepare and return the response
+
         $response = json_decode($roomStatus, true);
         if ($response['status'] === "available") {
             echo json_encode([
@@ -144,7 +136,6 @@ class ReservationsController
         }
 
         $errorMessages = [];
-        // Validasi khusus untuk tanggal dan waktu
         if (isset($data['check_in_datetime'])) {
             $datetime_parts = explode(' ', $data['check_in_datetime']);
             if (count($datetime_parts) !== 2 || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $datetime_parts[0]) || !preg_match('/^\d{2}:\d{2}:\d{2}$/', $datetime_parts[1])) {
@@ -159,7 +150,6 @@ class ReservationsController
             }
         }
     
-        // Validasi format total price jika ada
         if (isset($data['total_price']) && !is_numeric($data['total_price'])) {
             $errorMessages[] = "Invalid total price format. Must be a number.";
         }
