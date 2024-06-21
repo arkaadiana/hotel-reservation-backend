@@ -15,7 +15,6 @@ $router->register('PUT', '/api/customers', [new CustomersController($db), 'updat
 $router->register('DELETE', '/api/customers', [new CustomersController($db), 'deleteCustomers']);
 
 $router->register('GET', '/api/rooms', [new RoomsController($db), 'readRooms']);
-$router->register('GET', '/api/rooms/status', [new RoomsController($db), 'checkRoomStatus']);
 $router->register('POST', '/api/rooms', [new RoomsController($db), 'addRooms']);
 $router->register('PUT', '/api/rooms', [new RoomsController($db), 'updateRooms']);
 $router->register('DELETE', '/api/rooms', [new RoomsController($db), 'deleteRooms']);

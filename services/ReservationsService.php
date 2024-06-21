@@ -16,18 +16,14 @@ class ReservationsService
         $this->roomsModel = $roomsModel;
     }
 
-    // Reservation operations
     public function getRoomStatus($data, $exclude_reservation_id = null)
     {
-        // Check if the room_id exists
         if (!$this->roomsModel->isRoomIdExists($data['room_id'])) {
             return json_encode(array("status" => "error", "message" => "Room not found."));
         }
 
-        // Check if the room is booked for the given date range
         $isBooked = $this->reservationsModel->isRoomBooked($data, $exclude_reservation_id);
         
-        // Return "booked" if the room is booked, otherwise return "available"
         $status = $isBooked ? "booked" : "available";
         return json_encode(array("status" => $status));
     }
