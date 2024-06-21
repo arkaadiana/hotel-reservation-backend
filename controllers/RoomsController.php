@@ -1,5 +1,4 @@
 <?php
-include_once 'models/RoomsModel.php';
 include_once 'services/RoomsService.php';
 
 class RoomsController
