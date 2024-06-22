@@ -28,7 +28,7 @@ Sistem manajemen reservasi hotel adalah proyek akhir dari mata kuliah Back-end W
 ## 🛠️ Skema Tech Stack
 Berikut adalah beberapa kombinasi teknologi yang digunakan dalam mengembangkan sistem ini:
 
-![skema_tech_stack](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/b336b477-0409-4db0-aa3a-62270cb99b52)
+![skema_tech_stack](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/bbdc7094-38be-4d13-ade8-e58111bc457b)
 
 ### Penjelasan
 Penjelasan singkat mengenai skema tech stack yang digunakan:
@@ -40,7 +40,7 @@ Penjelasan singkat mengenai skema tech stack yang digunakan:
 
 ## 🗂️ ERD
 
-![erd_hotelreservation](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/ae0c614c-7dd4-4c9e-9b86-5d2a8cc91500)
+![erd_hotelreservation](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/6d27e87a-19da-4973-b91f-520fc76a5481)
 
 ERD ini menunjukkan hubungan antara tiga tabel dalam sistem reservasi hotel:
 
@@ -70,22 +70,24 @@ Relasi dalam ERD ini:
 ## 🛠️ Petunjuk Pemasangan
 Langkah-langkah untuk menginstal proyek ini secara lokal:
 ### 1. **Clone atau unduh repository:**
-   ```bash
-   git clone https://github.com/arkaadiana/hotel-reservation-backend.git
-   ```
+  ```bash
+  git clone https://github.com/arkaadiana/hotel-reservation-backend.git
+  ```
    Atau, unduh file ZIP dan ekstrak ke komputer kalian.
 
    Pastikan disimpannya pada lokasi seperti dibawah ini:
 
-   ![image](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/03d55266-e3cd-4a72-85ec-b5e1ee344528)
+  ![location_folder](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/9a35684a-c08b-44d5-8bf4-006bffe42881)
 
 ### 2. **Buka Proyek di IDE:**
   - Buka proyek menggunakan IDE favorit kalian seperti Visual Studio Code.
 ### 3. **Aktifkan XAMPP:**
   - Pastikan XAMPP sudah berjalan dengan layanan Apache dan MySQL aktif.
+  ![image](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/a763ebf6-07e2-48ec-95bc-4c22d9550023)
 ### 4. **Impor Database**
   - Buka phpMyAdmin.
   - Impor file `db_hotelreservation.sql` atau jalankan query SQL dari file tersebut untuk membuat database dan tabel yang diperlukan.
+  ![image](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/2a5b06cb-c297-4af0-a365-59a194f16082)
 ### 5. **Konfigurasi File `.env`**
   - Atur file `.env` di direktori utama proyek dan sesuaikan konfigurasi database kalian:
   - Atau, bisa ikuti seperti saya ini:
@@ -109,7 +111,7 @@ Composer dapat dijalankan dari command line.
     ```
 
 ### 7. **Instal PHPUnit untuk Unit Testing**
-  - Setelah Composer terinstalt Anda bisa menjalankan perintah untuk menginstal PHPUnit:
+  - Setelah Composer terinstal, kalian bisa menjalankan perintah untuk menginstal PHPUnit diterminal proyeknya:
     ```bash
     composer require --dev phpunit/phpunit
     ```
@@ -222,6 +224,7 @@ hotel-reservation-backend/
 ## 🛠️ Cara Penggunaan
 
 # **Uji API menggunakan Postman:**
+Jika ingin alternatifnya, saya sudah menyiapkan file koleksi untuk uji Postmannya. [**klik disini**](https://drive.google.com/file/d/1C0fzgthr_bSNWJuL_DK49JWFwjZhWDs5/view?usp=sharing) *(impor ke Postman)*
 
   ### 1. Customer/Pelanggan
   - **Get All Customers**
