@@ -73,6 +73,8 @@ Langkah-langkah untuk menginstal proyek ini secara lokal:
   ```bash
   git clone https://github.com/arkaadiana/hotel-reservation-backend.git
   ```
+
+  ![image](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/7e1d7046-ede2-4379-a3ac-0b77ac194910)
    Atau, unduh file ZIP dan ekstrak ke komputer kalian.
 
    Pastikan disimpannya pada lokasi seperti dibawah ini:
@@ -112,6 +114,23 @@ Composer dapat dijalankan dari command line.
     ```bash
     composer require --dev phpunit/phpunit
     ```
+    ![image](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/4eccbb48-090b-4476-8cab-93e7b8592611)
+    *Catatan:* 
+      - Jika versi PHP di platform kalian tidak memenuhi syarat minimum untuk versi PHPUnit terbaru, kalian bisa menginstal versi PHPUnit yang kompatibel dengan versi PHP kalian. 
+
+      - Jika kalian menjalankan perintah `composer require --dev phpunit/phpunit` dan tetap mendapat peringatan bahwa versi PHP tidak memenuhi syarat untuk PHPUnit terbaru, Composer akan secara otomatis menginstal versi PHPUnit yang kompatibel dengan PHP kalian.
+
+      - Jika memungkinkan, perbarui PHP kalian ke versi terbaru untuk mendapatkan kompatibilitas dengan PHPUnit versi terbaru.
+
+  - Untuk memastikan apakah PHPUnit kalian sudah terinstall bisa ketikan perintah:
+      ```bash
+      vendor/bin/phpunit --version
+      ```
+  - Setelah menjalankan perintah untuk menginstal PHPUnit,struktur direktori proyeknya berubah seperti berikut ini:
+
+    ![PHPUnit](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/11b15d07-8476-4800-b90a-e7a1bbc0810e)
+
+  Ini menunjukkan bahwa PHPUnit dan dependensinya telah terinstal dengan benar dalam proyek.
 
 ### 8. **Instal Postman untuk Uji API**
   -  Unduh Postman dari situs resminya **[klik disini](https://www.postman.com/downloads/)**
@@ -158,8 +177,6 @@ hotel-reservation-backend/
 ├── .env 🌐
 ├── .htaccess 🛡️
 ├── app.php 📝
-├── composer.json 📜
-├── composer.lock 🔒
 ├── db_hotelreservation.sql 🗄️
 ├── LICENSE 📄
 └── README.md 📖
@@ -212,8 +229,6 @@ hotel-reservation-backend/
 - **.env 🌐**: File konfigurasi lingkungan yang berisi informasi sensitif seperti kredensial database.
 - **.htaccess 🛡️**: File konfigurasi Apache untuk pengaturan URL rewriting dan keamanan.
 - **app.php 📝**: Titik masuk utama untuk aplikasi.
-- **composer.json 📜**: File manajer dependensi untuk PHP, yang mencantumkan paket-paket yang dibutuhkan.
-- **composer.lock 🔒**: Mengunci dependensi ke versi tertentu.
 - **db_hotelreservation.sql 🗄️**: File SQL untuk mengatur skema database.
 - **LICENSE 📄**: File lisensi untuk proyek ini.
 - **README.md 📖**: File readme yang berisi informasi tentang proyek ini.
