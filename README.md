@@ -126,7 +126,7 @@ Composer dapat dijalankan dari command line.
       ```bash
       vendor/bin/phpunit --version
       ```
-  - Setelah menjalankan perintah untuk menginstal PHPUnit,struktur direktori proyeknya berubah seperti berikut ini:
+  - Setelah menjalankan perintah untuk menginstal PHPUnit, struktur direktori proyeknya bertambah seperti berikut ini:
 
     ![PHPUnit](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/11b15d07-8476-4800-b90a-e7a1bbc0810e)
 
