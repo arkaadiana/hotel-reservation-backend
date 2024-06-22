@@ -98,13 +98,10 @@ Langkah-langkah untuk menginstal proyek ini secara lokal:
     DB_PASSWORD=
     ```
 ### 6. **Instal Dependensi Composer**
-  - Buka terminal di direktori proyek dan jalankan perintah berikut untuk menginstal dependensi Composer:
-    ```bash
-    composer install
-    ```
-  - Atau buka situs resmi Composer **[klik disini](https://getcomposer.org/download/)** dan unduh installer Composer sesuai OS kalian.
+  - Buka situs resmi Composer **[klik disini](https://getcomposer.org/download/)** dan unduh installer Composer sesuai OS kalian.
   - Jalankan installer yang sudah diunduh dan ikuti instruksi instalasi. Pada saat instalasi pastikan untuk mencentang opsi untuk menambahkan Composer ke PATH environment variable agar
 Composer dapat dijalankan dari command line.
+![image](https://github.com/arkaadiana/hotel-reservation-backend/assets/144679258/10204908-942b-4bf0-bbeb-94bdd74b43d6)
   - Setelah instalasi selesai, buka terminal baru dan jalankan perintah berikut untuk memverifikasi instalasi:
     ```bash
     composer --version
