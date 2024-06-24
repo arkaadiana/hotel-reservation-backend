@@ -138,29 +138,29 @@ Composer dapat dijalankan dari command line.
 ```bash
 hotel-reservation-backend/
 │
-├── config/ 🛠️
+├── config/ 
 │   ├── database.php
 │   └── table.php
 │
-├── controllers/ 🎮
+├── controllers/ 
 │   ├── CustomersController.php
 │   ├── ReservationsController.php
 │   └── RoomsController.php
 │
-├── middleware/ ⚙️
+├── middleware/ 
 │   └── Router.php
 │
-├── models/ 🗃️
+├── models/ 
 │   ├── CustomersModel.php
 │   ├── ReservationsModel.php
 │   └── RoomsModel.php
 │
-├── services/ 🛡️
+├── services/ 
 │   ├── CustomersService.php
 │   ├── ReservationsService.php
 │   └── RoomsService.php
 │
-├── tests/ 🧪
+├── tests/ 
 │   ├── controllers/
 │   │   ├── CustomersControllerTest.php
 │   │   ├── ReservationsControllerTest.php
@@ -174,40 +174,60 @@ hotel-reservation-backend/
 │       ├── ReservationsServiceTest.php
 │       └── RoomsServiceTest.php
 │
-├── .env 🌐
-├── .htaccess 🛡️
-├── app.php 📝
-├── db_hotelreservation.sql 🗄️
-├── LICENSE 📄
-└── README.md 📖
-
-
+├── .env 
+├── .htaccess 
+├── app.php 
+├── db_hotelreservation.sql 
+├── LICENSE 
+└── README.md 
+```
+## Struktur Tambahan yang Dibuat oleh Composer
+```bash
+├── vendor/
+│   ├── bin/
+│   ├── composer/
+│   ├── myclabs/
+│   ├── nikic/
+│   ├── phar-io/
+│   ├── phpunit/
+│   ├── sebastian/
+│   └── theseer/
+│   └── autoload.php 
+│
+├── composer.json 
+├── composer.lock 
 ```
 ### Penjelasan
 
-### config/ 🛠️
+### config/ 
 - **database.php**: Berisi kelas `Database`, yang mengelola koneksi ke database dan membaca konfigurasi database dari file `.env`.
 - **table.php**: Menyediakan pemetaan nama tabel untuk tabel-tabel yang digunakan dalam aplikasi.
 
-### controllers/ 🎮
+### controllers/ 
 - **CustomersController.php**: Menangani operasi terkait pelanggan seperti membaca, menambah, memperbarui, dan menghapus pelanggan.
 - **ReservationsController.php**: Mengelola operasi terkait reservasi termasuk memeriksa status kamar, membaca, menambah, memperbarui, dan menghapus reservasi.
 - **RoomsController.php**: Bertanggung jawab untuk operasi terkait kamar seperti membaca, menambah, memperbarui, dan menghapus kamar.
 
-### middleware/ ⚙️
+### middleware/ 
 - **Router.php**: Menerapkan mekanisme routing sederhana untuk memetakan permintaan HTTP ke tindakan controller yang sesuai.
 
-### models/ 🗃️
+### models/ 
 - **CustomersModel.php**: Berinteraksi dengan tabel pelanggan di database.
 - **ReservationsModel.php**: Berinteraksi dengan tabel reservasi di database.
 - **RoomsModel.php**: Berinteraksi dengan tabel kamar di database.
 
-### services/ 🛡️
+### services/ 
 - **CustomersService.php**: Berisi logika bisnis untuk mengelola pelanggan.
 - **ReservationsService.php**: Berisi logika bisnis untuk mengelola reservasi.
 - **RoomsService.php**: Berisi logika bisnis untuk mengelola kamar.
 
-### tests/ 🧪
+### vendor/
+- **bin/**: Berisi skrip-skrip yang dapat dieksekusi, biasanya dari dependensi.
+- **composer/**: Berisi file-file yang diperlukan oleh Composer untuk mengelola dependensi.
+- **myclabs/, nikic/, phar-io/, phpunit/, sebastian/, theseer/**: Direktori yang berisi berbagai dependensi proyek.
+- **autoload.php**: File yang dihasilkan oleh Composer untuk autoloading kelas-kelas dari dependensi.
+
+### tests/ 
 
 #### controllers/
 - **CustomersControllerTest.php**: Pengujian untuk `CustomersController`.
@@ -226,12 +246,14 @@ hotel-reservation-backend/
 
 ### File-File Utama 📑
 
-- **.env 🌐**: File konfigurasi lingkungan yang berisi informasi sensitif seperti kredensial database.
-- **.htaccess 🛡️**: File konfigurasi Apache untuk pengaturan URL rewriting dan keamanan.
-- **app.php 📝**: Titik masuk utama untuk aplikasi.
+- **.env**: File konfigurasi lingkungan yang berisi informasi sensitif seperti kredensial database.
+- **.htaccess**: File konfigurasi Apache untuk pengaturan URL rewriting dan keamanan.
+- **app.php**: Titik masuk utama untuk aplikasi.
+- **composer.json**: Berisi konfigurasi untuk Composer, termasuk daftar dependensi proyek.
+- **composer.lock**: Mengunci versi spesifik dari setiap dependensi yang digunakan.
 - **db_hotelreservation.sql 🗄️**: File SQL untuk mengatur skema database.
-- **LICENSE 📄**: File lisensi untuk proyek ini.
-- **README.md 📖**: File readme yang berisi informasi tentang proyek ini.
+- **LICENSE**: File lisensi untuk proyek ini.
+- **README.md**: File readme yang berisi informasi tentang proyek ini.
 
 ## 🛠️ Cara Penggunaan
 
