@@ -258,7 +258,7 @@ hotel-reservation-backend/
 ## 🛠️ Cara Penggunaan
 
 # **Uji API menggunakan Postman:**
-Jika ingin alternatifnya, saya sudah menyiapkan file koleksi untuk uji Postmannya. [**klik disini**](https://drive.google.com/file/d/1XRxur-sM1Eg9IfCYDOBRrWAOWp3l5cdH/view?usp=sharing) *(impor ke Postman)*
+Jika ingin alternatifnya, saya sudah menyiapkan file koleksi untuk uji Postmannya. [**klik disini**](https://drive.google.com/file/d/1RlzDRu3lMzFrXQfpfzMZBwJwEqcB2_P7/view?usp=sharing) *(impor ke Postman)*
 
   ### 1. Customer/Pelanggan
   - **Get All Customers**
@@ -276,7 +276,7 @@ Jika ingin alternatifnya, saya sudah menyiapkan file koleksi untuk uji Postmanny
       ```bash
       {
         "name" : "Arka Adiana",
-        "email" : "arkaadianaa@gmail.com",
+        "email" : "arkaadiana@gmail.com",
         "phone_number" : "0837743743483"
       }
       ```
